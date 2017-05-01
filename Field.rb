@@ -10,7 +10,7 @@ class Field
     logger = Logger.new(STDOUT)
     logger.debug(wall_orientations)
     wall_orientations.each do |wall_orientation|
-        @walls << (Wall.new(x,y,wall_orientation))
+        @walls << (Wall.new(x*90,y*100,wall_orientation))
     end
   end
 

@@ -6,15 +6,18 @@ class Wall
     @x = x
     @y = y
     if (wall_orientation == :North) then
-      @image=Gosu::Image.new("media/Wall_Horizontal.png")
+      @image=Gosu::Image.new("media/Wall_Horizontal_90.png")
     elsif (wall_orientation == :South) then
-      @image=Gosu::Image.new("media/Wall_Horizontal.png")
-      @y=@y+100
+      @image=Gosu::Image.new("media/Wall_Horizontal_90.png")
+      
+      @y=@y+110
     elsif (wall_orientation == :West) then
       @image=Gosu::Image.new("media/Wall_Vertical.png")
+      @y=@y+10
     else
       @image=Gosu::Image.new("media/Wall_Vertical.png")
-      @x=@x+100
+      @x=@x+80
+      @y=@y+10
     end
     logger = Logger.new(STDOUT)
     logger.debug "Wall with orientation #{wall_orientation} initialized: #{@image}"

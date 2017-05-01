@@ -1,5 +1,6 @@
 require 'gosu'
 require_relative 'Player'
+require_relative 'Monster'
 require_relative 'Playfield'
 
 module ZOrder
@@ -16,6 +17,7 @@ class GameWindow < Gosu::Window
     @player = Player.new
     @playfield = Playfield.new
     @font = Gosu::Font.new(20)
+    @monster = Monster.new
   end
 
   def update
@@ -24,6 +26,7 @@ class GameWindow < Gosu::Window
   def draw
     #@background_image.draw(0, 0, 0);
     @player.draw
+    @monster.draw
     #@font.draw("Score: #{@player.score}", 100, 100, ZOrder::UI, 1.0, 1.0, 0xff_ffff00)
     @playfield.draw
   end
