@@ -2,8 +2,9 @@ class Player
   def initialize
     @image = Gosu::Image.new("media/hero.png")
     @beep = Gosu::Sample.new("media/beep.wav")
-    @x = @y = 10
+    @x = @y = 0
     @hitpoints = 30
+    @logger = Logger.new(STDOUT)
   end
 
   def hitpoints
@@ -11,31 +12,44 @@ class Player
   end
   
   def attack(monster)
-    hit = Random.rand(1..6)
-    monster.receive_hit(hit)
+    
+    @logger.debug "within_range #{within_range(monster)}"
+    if within_range(monster)
+      hit = Random.rand(1..6)
+      monster.receive_hit(hit)
+    end
+  end
+  
+  def within_range (monster)
+    if (@x == monster.x)
+      if (@y+1 == monster.y or @y-1 == monster.y)
+        return true
+      end
+    elsif (@y == monster.y)
+      if (@x+1 == monster.x or @x-1 == monster.x)
+        return true
+      end
+    end
   end
 
   def move_east
-    logger = Logger.new(STDOUT)
-    logger.debug "before move_east x= #{@x}"
-    @x = @x + 90 unless @x >=100
-    logger.debug "after move_east x= #{@x}"
+    @x = @x + 1 unless @x = 1
   end
 
   def move_west
-    @x = @x - 90 if (@x - 90 > 0)
+    @x = @x - 1 unless @x = 0
   end
 
   def move_north
-    @y = @y - 100 if (@y - 100 > 0)
+    @y = @y - 1 unless @y = 0
   end
 
   def move_south
-    @y = @y + 100 unless @y >= 100
+    @y = @y + 1 unless @y = 1
   end
 
   def draw
-    @image.draw(@x, @y, 2)
+    @image.draw(@x*90+10, @y*100+10, 2)
   end
 
 end
