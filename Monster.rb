@@ -4,14 +4,22 @@ class Monster
     @beep = Gosu::Sample.new("media/beep.wav")
     @x = 100
     @y = 110
-    @score = 0
+    @hitpoints = 10
   end
 
-  def score
-    @score
+  def hitpoints
+    @hitpoints
   end
   
   def draw
     @image.draw(@x, @y, 1)
+  end
+  
+  def receive_hit(hit)
+    if hit < @hitpoints
+      @hitpoints -= hit
+    elsif
+      @hitpoints = 0
+    end
   end
 end

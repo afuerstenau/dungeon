@@ -3,11 +3,16 @@ class Player
     @image = Gosu::Image.new("media/hero.png")
     @beep = Gosu::Sample.new("media/beep.wav")
     @x = @y = 10
-    @score = 0
+    @hitpoints = 30
   end
 
-  def score
-    @score
+  def hitpoints
+    @hitpoints
+  end
+  
+  def attack(monster)
+    hit = Random.rand(1..6)
+    monster.receive_hit(hit)
   end
 
   def move_east
