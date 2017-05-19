@@ -21,6 +21,9 @@ class GameWindow < Gosu::Window
   end
 
   def update
+    if @monster.is_dead 
+      @monster = Monster.new
+    end
   end
 
   def draw
