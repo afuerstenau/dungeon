@@ -1,4 +1,6 @@
 class Player
+  attr_reader :x, :y
+  
   def initialize
     @image = Gosu::Image.new("media/hero.png")
     @beep = Gosu::Sample.new("media/beep.wav")
@@ -12,11 +14,12 @@ class Player
   end
   
   def attack(monster)
-    
-    @logger.debug "within_range #{within_range(monster)}"
-    if within_range(monster)
-      hit = Random.rand(1..6)
-      monster.receive_hit(hit)
+    if !is_dead 
+      @logger.debug "within_range #{within_range(monster)}"
+      if within_range(monster)
+        hit = Random.rand(1..6)
+        monster.receive_hit(hit, self)
+      end
     end
   end
   
@@ -33,7 +36,9 @@ class Player
   end
 
   def move_east
-    @x = @x + 1 unless @x = 1
+     if !is_dead 
+       @x = @x + 1 unless @x = 1
+     end
   end
 
   def move_west
@@ -49,7 +54,19 @@ class Player
   end
 
   def draw
-    @image.draw(@x*90+10, @y*100+10, 2)
+    @image.draw(@x*90+10, @y*100+10, 2) unless is_dead
+  end
+  
+  def receive_hit(hit, monster)
+    if hit < @hitpoints
+      @hitpoints -= hit
+    elsif
+      @hitpoints = 0
+    end
+  end
+  
+  def is_dead
+    @hitpoints <= 0
   end
 
 end
