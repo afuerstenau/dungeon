@@ -1,18 +1,33 @@
 require_relative 'Field'
 
 class Playfield
-  def initialize
-    @field_nw = Field.new(0 , 0,[:North, :West])
-    @field_sw = Field.new(0, 1,[:South, :West])
-    @field_ne = Field.new(1, 0,[:North, :East])
-    @field_se = Field.new(1, 1,[:South, :East])
+  def initialize width, height
+    @fields = Array.new
+    (0..width).each do |xcoordinate|
+      (0..height).each do |ycoordinate|
+        walls = Array.new
+        if (xcoordinate == 0)
+          walls.push :West
+        end
+        if (xcoordinate == width)
+          walls.push :East
+        end
+        if (ycoordinate == 0)
+          walls.push :North
+        end
+        if (ycoordinate == height)
+          walls.push :South
+        end
+        @fields.push Field.new(xcoordinate , ycoordinate,walls)
+      end
+    end
+    
   end
 
   def draw
-    @field_nw.draw
-    @field_sw.draw
-    @field_ne.draw
-    @field_se.draw
+    @fields.each do |field|
+      field.draw
+    end
   end
 
 end

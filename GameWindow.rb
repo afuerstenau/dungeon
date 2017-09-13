@@ -13,16 +13,23 @@ class GameWindow < Gosu::Window
     self.caption = "Dungeon Hunt"
 
     #@background_image = Gosu::Image.new("media/space.png", :tileable => true)
+    @playground_width = 10
+    @playground_height = 10
 
-    @player = Player.new
-    @playfield = Playfield.new
+    @player = Player.new @playground_width, @playground_height
+    @playfield = Playfield.new @playground_width, @playground_height
     @font = Gosu::Font.new(20)
-    @monster = Monster.new
+    
+    @monster = create_monster
+  end
+  
+  def create_monster
+    Monster.new @playground_width, @playground_height
   end
 
   def update
     if @monster.is_dead 
-      @monster = Monster.new
+      @monster = create_monster
     end
   end
 

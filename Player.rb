@@ -1,7 +1,9 @@
 class Player
   attr_reader :x, :y
   
-  def initialize
+  def initialize playfield_width, playfield_height
+    @playfield_width = playfield_width
+    @playfield_height = playfield_height
     @image = Gosu::Image.new("media/hero.png")
     @beep = Gosu::Sample.new("media/beep.wav")
     @x = @y = 0
@@ -37,20 +39,22 @@ class Player
 
   def move_east
      if !is_dead 
-       @x = @x + 1 unless @x = 1
+       @x = @x + 1 unless @x == @playfield_width
      end
   end
 
   def move_west
-    @x = @x - 1 unless @x = 0
+    @x = @x - 1 unless @x == 0
   end
 
   def move_north
-    @y = @y - 1 unless @y = 0
+    @y = @y - 1 unless @y == 0
   end
 
   def move_south
-    @y = @y + 1 unless @y = 1
+    @logger.debug "movesouth before #{@y}"
+    @y = @y + 1 unless @y == @playfield_height
+    @logger.debug "movesouth after #{@y}"
   end
 
   def draw

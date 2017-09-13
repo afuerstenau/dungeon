@@ -1,11 +1,11 @@
 class Monster
   attr_reader :x, :y
   
-  def initialize
+  def initialize playground_width, playground_height
     @image = Gosu::Image.new("media/monster.png")
     @beep = Gosu::Sample.new("media/beep.wav")
-    @x = Random.rand(0..1)
-    @y = Random.rand(0..1)
+    @x = Random.rand(0..playground_width)
+    @y = Random.rand(0..playground_height)
     @hitpoints = 20
   end
 
