@@ -10,9 +10,9 @@ end
 class GameWindow < Gosu::Window
   def initialize
     super 1280, 1280
+    @last_monster_movement = Time.now.sec
     self.caption = "Dungeon Hunt"
 
-    #@background_image = Gosu::Image.new("media/space.png", :tileable => true)
     @playground_width = 10
     @playground_height = 10
 
@@ -31,10 +31,14 @@ class GameWindow < Gosu::Window
     if @monster.is_dead 
       @monster = create_monster
     end
+    if @last_monster_movement != Time.now.sec
+      @last_monster_movement = Time.now.sec
+      @monster.move_towards_player(@player)
+    end
+    
   end
 
   def draw
-    #@background_image.draw(0, 0, 0);
     @player.draw
     @monster.draw
     @font.draw("Spieler Trefferpunkte #{@player.hitpoints}", 10, @playground_height*110+20, ZOrder::UI, 1.0, 1.0, 0xff_ffff00)
