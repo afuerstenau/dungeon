@@ -37,8 +37,8 @@ class GameWindow < Gosu::Window
     #@background_image.draw(0, 0, 0);
     @player.draw
     @monster.draw
-    @font.draw("Spieler Trefferpunkte #{@player.hitpoints}", 10, 230, ZOrder::UI, 1.0, 1.0, 0xff_ffff00)
-    @font.draw("Monster Trefferpunkte:#{@monster.hitpoints}", 10, 250, ZOrder::UI, 1.0, 1.0, 0xff_ffff00)
+    @font.draw("Spieler Trefferpunkte #{@player.hitpoints}", 10, @playground_height*110+20, ZOrder::UI, 1.0, 1.0, 0xff_ffff00)
+    @font.draw("Monster Trefferpunkte:#{@monster.hitpoints}", 10, @playground_height*110+40, ZOrder::UI, 1.0, 1.0, 0xff_ffff00)
     @playfield.draw
   end
 
