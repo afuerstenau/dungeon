@@ -1,9 +1,13 @@
+require_relative 'Point'
+
 class Player
   attr_reader :x, :y
   
-  def initialize playfield_width, playfield_height
+  def initialize playfield, playfield_width, playfield_height
+    @playfield = playfield
     @playfield_width = playfield_width
     @playfield_height = playfield_height
+    
     @image = Gosu::Image.new("media/hero.png")
     @beep = Gosu::Sample.new("media/beep.wav")
     @x = @y = 0
@@ -17,7 +21,6 @@ class Player
   
   def attack(monster)
     if !is_dead 
-      @logger.debug "within_range #{within_range(monster)}"
       if within_range(monster)
         hit = Random.rand(1..6)
         monster.receive_hit(hit, self)
@@ -39,22 +42,21 @@ class Player
 
   def move_east
      if !is_dead 
-       @x = @x + 1 unless @x == @playfield_width
+       @x = @x + 1 unless @x == @playfield_width or @playfield.way_between_two_fields_is_blocked Point.new(@x, @y), Point.new(@x+1, @y), :East
      end
   end
 
   def move_west
-    @x = @x - 1 unless @x == 0
+    @x = @x - 1 unless @x == 0 or @playfield.way_between_two_fields_is_blocked Point.new(@x, @y), Point.new(@x-1, @y), :West
   end
 
   def move_north
-    @y = @y - 1 unless @y == 0
+    
+    @y = @y - 1 unless @y == 0 or @playfield.way_between_two_fields_is_blocked Point.new(@x, @y), Point.new(@x, @y-1), :North
   end
 
   def move_south
-    @logger.debug "movesouth before #{@y}"
-    @y = @y + 1 unless @y == @playfield_height
-    @logger.debug "movesouth after #{@y}"
+    @y = @y + 1 unless @y == @playfield_height or @playfield.way_between_two_fields_is_blocked Point.new(@x, @y), Point.new(@x, @y+1), :South
   end
 
   def draw

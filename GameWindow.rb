@@ -16,8 +16,8 @@ class GameWindow < Gosu::Window
     @playground_width = 10
     @playground_height = 10
 
-    @player = Player.new @playground_width, @playground_height
     @playfield = Playfield.new @playground_width, @playground_height
+    @player = Player.new @playfield, @playground_width, @playground_height
     @font = Gosu::Font.new(20)
     
     @monster = create_monster

@@ -19,8 +19,6 @@ class Wall
       @x=@x+80
       @y=@y+10
     end
-    logger = Logger.new(STDOUT)
-    logger.debug "Wall with orientation #{wall_orientation} initialized: #{@image}"
   end
 
   def draw

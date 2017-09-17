@@ -51,16 +51,18 @@ class Monster
   end
   
   def move_towards_player player
-    if @x - player.x > 1 or (@x - player.x > 0 and (player.y-@y).abs > 0)
-      @x-=1 
-    elsif player.x-@x > 1 or (player.x-@x > 0 and (player.y-@y).abs > 0)
-      @x+=1 
-    elsif player.y-@y > 1 or (player.y-@y > 0 and (player.x-@x).abs > 0)
-      @y+=1
-    elsif @y-player.y > 1 or (@y-player.y > 0 and (player.x-@x).abs > 0)
-      @y-=1
-    else
-      attack player  
+    if (@x -player.x).abs <5 and (@y-player.y).abs <5
+      if @x - player.x > 1 or (@x - player.x > 0 and (player.y-@y).abs > 0)
+        @x-=1 
+      elsif player.x-@x > 1 or (player.x-@x > 0 and (player.y-@y).abs > 0)
+        @x+=1 
+      elsif player.y-@y > 1 or (player.y-@y > 0 and (player.x-@x).abs > 0)
+        @y+=1
+      elsif @y-player.y > 1 or (@y-player.y > 0 and (player.x-@x).abs > 0)
+        @y-=1
+      else
+        attack player  
+      end
     end
   end
 end
