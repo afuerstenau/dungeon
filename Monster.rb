@@ -1,6 +1,6 @@
 class Monster
   attr_reader :x, :y
-  
+
   def initialize playground_width, playground_height
     @image = Gosu::Image.new("media/monster.png")
     @beep = Gosu::Sample.new("media/beep.wav")
@@ -12,20 +12,20 @@ class Monster
   def hitpoints
     @hitpoints
   end
-  
+
   def draw
     @image.draw(@x*90+10, @y*100+10, 1) unless is_dead
   end
-  
+
   def receive_hit(hit, player)
     if hit < @hitpoints
       @hitpoints -= hit
       attack(player)
-    elsif
+    else
       @hitpoints = 0
     end
   end
-  
+
   def attack(player)
     # @logger.debug "within_range #{within_range(player)}"
     if within_range(player)
@@ -33,7 +33,7 @@ class Monster
       player.receive_hit(hit, self)
     end
   end
-  
+
   def within_range (player)
     if (@x == player.x)
       if (@y+1 == player.y or @y-1 == player.y)
@@ -45,23 +45,23 @@ class Monster
       end
     end
   end
-  
+
   def is_dead
     @hitpoints <= 0
   end
-  
+
   def move_towards_player player
-    if (@x -player.x).abs <5 and (@y-player.y).abs <5
+    if (player.x-@x).abs <5 and (player.y-@y).abs <5
       if @x - player.x > 1 or (@x - player.x > 0 and (player.y-@y).abs > 0)
-        @x-=1 
+        @x-=1
       elsif player.x-@x > 1 or (player.x-@x > 0 and (player.y-@y).abs > 0)
-        @x+=1 
+        @x+=1
       elsif player.y-@y > 1 or (player.y-@y > 0 and (player.x-@x).abs > 0)
         @y+=1
       elsif @y-player.y > 1 or (@y-player.y > 0 and (player.x-@x).abs > 0)
         @y-=1
       else
-        attack player  
+        attack player
       end
     end
   end

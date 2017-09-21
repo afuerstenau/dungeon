@@ -17,25 +17,20 @@ class GameWindow < Gosu::Window
     @playground_height = 10
 
     @playfield = Playfield.new @playground_width, @playground_height
-    @player = Player.new @playfield, @playground_width, @playground_height
-    @font = Gosu::Font.new(20)
-    
     @monster = create_monster
+    @player = Player.new @playfield, @playground_width, @playground_height, @monster, self
+    @font = Gosu::Font.new(20)
   end
-  
+
   def create_monster
     Monster.new @playground_width, @playground_height
   end
 
   def update
-    if @monster.is_dead 
+    if @monster.is_dead
       @monster = create_monster
     end
-    if @last_monster_movement != Time.now.sec
-      @last_monster_movement = Time.now.sec
-      @monster.move_towards_player(@player)
-    end
-    
+
   end
 
   def draw
@@ -49,18 +44,11 @@ class GameWindow < Gosu::Window
   def button_down(id)
     if id == Gosu::KbEscape
       close
-    elsif id == Gosu::KbRight
-      @player.move_east
-    elsif id == Gosu::KbLeft
-      @player.move_west
-    elsif id == Gosu::KbUp
-      @player.move_north
-    elsif id == Gosu::KbDown
-      @player.move_south
-    elsif id == Gosu::KbA
-      @player.attack(@monster)
+    else
+      @player.button_down(id)
+      @monster.move_towards_player(@player)
     end
-    
+
   end
 end
 
