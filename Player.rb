@@ -1,9 +1,11 @@
 require_relative 'Point'
+require_relative 'Text_Input_Reader'
 
 class Player
   attr_reader :x, :y
+  include Text_Input_Reader
 
-  def initialize playfield, playfield_width, playfield_height, monster, game_window
+  def initialize playfield, playfield_width, playfield_height, monster, text_displayer
     @playfield = playfield
     @playfield_width = playfield_width
     @playfield_height = playfield_height
@@ -16,7 +18,7 @@ class Player
     @logger = Logger.new(STDOUT)
     @font = Gosu::Font.new(20)
     @is_attacking = false
-    @game_window = game_window
+    @text_displayer = text_displayer
   end
 
   def hitpoints
@@ -27,8 +29,7 @@ class Player
     if !is_dead
       if within_range(@monster)
         @is_attacking = true
-        @input = Gosu::TextInput.new
-        @game_window.text_input = @input
+        @text_displayer.display_text "Angriff Spieler 5+3?", self
       end
     end
   end
@@ -66,8 +67,6 @@ class Player
 
   def draw
     @image.draw(@x*90+10, @y*100+10, 2) unless is_dead
-    @font.draw("Angriff Spieler 5+3?", 10, @playfield_height*110+60, ZOrder::UI, 1.0, 1.0, 0xff_ffff00) if @is_attacking
-    @font.draw(@input.text, 150, @playfield_height*110+60, ZOrder::UI, 1.0, 1.0, 0xff_ffff00) if @is_attacking
   end
 
   def button_down(id)
@@ -82,14 +81,15 @@ class Player
       move_south
     elsif id == Gosu::KbA
       attack
-    elsif id == Gosu::KbReturn
-      puts "InputText #{@input.text == 8}"
-      if @input.text.to_i == 8
-        @monster.receive_hit 10, self
-      end
     else
       #puts "unknown id: #{id}"
       #puts "char: #{Gosu::button_id_to_char(id)}"
+    end
+  end
+
+  def handle_text_input text_from_input
+    if text_from_input.to_i == 8
+      @monster.receive_hit 10, self
     end
   end
 

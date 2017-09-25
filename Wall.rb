@@ -1,4 +1,5 @@
 require 'logger'
+require 'gosu'
 
 class Wall
 
@@ -9,7 +10,7 @@ class Wall
       @image=Gosu::Image.new("media/Wall_Horizontal_90.png")
     elsif (wall_orientation == :South) then
       @image=Gosu::Image.new("media/Wall_Horizontal_90.png")
-      
+
       @y=@y+110
     elsif (wall_orientation == :West) then
       @image=Gosu::Image.new("media/Wall_Vertical.png")
